@@ -20,6 +20,7 @@ except ImportError:
 # set the GLFW compiler flags
 extra_compile_args = []
 extra_link_args = []
+extra_libraries = []
 
 platform = sys.platform.lower()
 if 'darwin' in platform or 'linux' in platform:
@@ -38,13 +39,14 @@ if 'darwin' in platform:
         glfw_lib = 'glfw3'
 
 if 'win32' in platform:
-    glfw_lib = 'glfw3dll'
+    glfw_lib = 'glfw3'
+    extra_libraries += ["gdi32", "user32", "shell32"]
     if 'GLFW_ROOT' in os.environ:
         extra_compile_args.append('-I%s' % (os.path.join(os.environ['GLFW_ROOT'], 'include'),))
         extra_link_args.append('/LIBPATH:%s' % (os.path.join(os.environ['GLFW_ROOT'], 'lib-vc2012'),))
 
 ext_modules = [
-    Extension('cyglfw3.glfw3', ['cyglfw3/glfw3.pyx'], libraries=[glfw_lib],
+    Extension('cyglfw3.glfw3', ['cyglfw3/glfw3.pyx'], libraries=[glfw_lib] + extra_libraries,
         extra_compile_args=extra_compile_args,
         extra_link_args=extra_link_args
     )
