@@ -1,22 +1,23 @@
+#!/usr/bin/env python
 from OpenGL import GL as gl
-import glfw3 as glfw
+from cyglfw3.compatible import *
 
-if not glfw.Init():
+if not glfwInit():
     exit(1)
 
-window = glfw.CreateWindow(640, 480, "Simple Example")
+window = glfwCreateWindow(640, 480, "Simple Example")
 if not window:
-    glfw.Terminate()
+    glfwTerminate()
     exit(1)
 
 def key_callback(window, key, scancode, action, mods):
-    if (key == glfw.GLFW_KEY_ESCAPE and action == glfw.GLFW_PRESS):
-        glfw.SetWindowShouldClose(window, gl.GL_TRUE)
+    if (key == GLFW_KEY_ESCAPE and action == GLFW_PRESS):
+        glfwSetWindowShouldClose(window, gl.GL_TRUE)
 
-glfw.SetKeyCallback(window, key_callback)
+glfwSetKeyCallback(window, key_callback)
 
-glfw.MakeContextCurrent(window)
-while not glfw.WindowShouldClose(window):
+glfwMakeContextCurrent(window)
+while not glfwWindowShouldClose(window):
     width = 680
     height = 480
     # frame_size = glfwGetFrameBufferSize(window, width, height)
@@ -31,7 +32,7 @@ while not glfw.WindowShouldClose(window):
     gl.glMatrixMode(gl.GL_MODELVIEW)
 
     gl.glLoadIdentity()
-    gl.glRotatef(float(glfw.GetTime() * 50), 0, 0, 1)
+    gl.glRotatef(float(glfwGetTime() * 50), 0, 0, 1)
 
     gl.glBegin(gl.GL_TRIANGLES)
     gl.glColor3f(1.0, 0.0, 0.0)
@@ -42,9 +43,9 @@ while not glfw.WindowShouldClose(window):
     gl.glVertex3f(0.0, 0.6, 0.0)
     gl.glEnd()
 
-    glfw.SwapBuffers(window)
-    glfw.PollEvents()
+    glfwSwapBuffers(window)
+    glfwPollEvents()
 
-glfw.DestroyWindow(window)
-glfw.Terminate()
+glfwDestroyWindow(window)
+glfwTerminate()
 exit()
