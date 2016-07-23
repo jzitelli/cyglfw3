@@ -38,8 +38,12 @@ if 'darwin' in platform:
     if os.path.exists('/usr/local/lib/libglfw3.dylib'):
         glfw_lib = 'glfw3'
 
+if 'linux' in platform:
+    glfw_lib = 'glfw3' # <-- lib name used by glfw built from https://github.com/glfw/glfw
+    extra_libraries += ["X11", "Xrandr", "Xxf86vm", "Xinerama", "Xcursor"] # <-- maybe I needed this because I am using a static lib build of glfw?
+
 if 'win32' in platform:
-    glfw_lib = 'glfw3'
+    glfw_lib = 'glfw3' # <-- lib name used by glfw built from https://github.com/glfw/glfw
     extra_libraries += ["gdi32", "user32", "shell32"]
     if 'GLFW_ROOT' in os.environ:
         extra_compile_args.append('-I%s' % (os.path.join(os.environ['GLFW_ROOT'], 'include'),))
